@@ -7,7 +7,7 @@ export class RegisterService {
             const apiData = await this.searchDataDB()
             
             for (const item of apiData){
-                await this.dispare(item.name, item.videoLink, item.cellphone)
+                await this.send(item.name, item.videoLink, item.cellphone)
             }
             return 
 
@@ -19,7 +19,7 @@ export class RegisterService {
     async executeSendManual (data){
         try {
             for (const item of data){
-                await this.dispare(item.name, item.videoLink, item.cellphone)
+                await this.send(item.name, item.videoLink, item.cellphone)
             }
             return 
 
