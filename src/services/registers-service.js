@@ -75,7 +75,9 @@ export class RegisterService {
     async search (phone){
         try {
             const cellphone = phone.slice(2)
+            console.log(cellphone)
             const response = await axios.get(`${env.URL_Dilis}/cellphone/${cellphone}`)
+            console.log(response.data.user)
             return response.data.user
         } catch (err) {
             if(err.response.status === 404){

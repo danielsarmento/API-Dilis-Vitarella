@@ -15,6 +15,7 @@ export async function register (req, res) {
 
 export async function searchRegister (req, res) {
     const {phone} = req.params
+    console.log(phone)
     try{
         const registerService = new RegisterService()
         const response = await registerService.search(phone)
