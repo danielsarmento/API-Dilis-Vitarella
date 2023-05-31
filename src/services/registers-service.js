@@ -34,7 +34,7 @@ export class RegisterService {
 
     async searchDataDB () {
         try {
-            const response = await axios.get(`${env.URL_Dilis}`)
+            const response = await axios.get(`${env.URL_DILIS}`)
             if (!response){
                 return []
             } else {
@@ -75,9 +75,7 @@ export class RegisterService {
     async search (phone){
         try {
             const cellphone = phone.slice(2)
-            console.log(`${env.URL_Dilis}/cellphone/${cellphone}`)
-            const response = await axios.get(`${env.URL_Dilis}/cellphone/${cellphone}`)
-            console.log(response.data.user)
+            const response = await axios.get(`${env.URL_DILIS}/cellphone/${cellphone}`)
             return response.data.user
         } catch (err) {
             if(err.response.status === 404){
