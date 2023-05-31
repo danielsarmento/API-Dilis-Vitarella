@@ -6,10 +6,14 @@ export class RegisterService {
         try {
             const apiData = await this.searchDataDB()
             
-            for (const item of apiData){
-                await this.send(item.name, item.videoLink, item.cellphone)
+            if(!apiData){
+                return
+            } else {
+                for (const item of apiData){
+                    await this.send(item.name, item.videoLink, item.cellphone)
+                }
+                return 
             }
-            return 
 
           } catch (err) {
             throw new Error('Error executing trigger content!')
@@ -30,9 +34,12 @@ export class RegisterService {
 
     async searchDataDB () {
         try {
-            const response = await axios.get('http://145.14.134.34:3021/api/external/users')
-            
-            return response.data.users
+            const response = await axios.get(`${env.URL_Dilis}`)
+            if (!response){
+                return []
+            } else {
+                return response?.data?.users
+            }
             
           } catch (err) {
             throw new Error('Error fetching data!')
