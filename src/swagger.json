@@ -51,7 +51,7 @@
           },
           "responses": {
             "200": {
-              "description": "Mensagens enviadas com sucesso!",
+              "description": "Messages sent successfully!",
               "content": {
                 "application/json": {
                   "schema": {
@@ -64,13 +64,13 @@
                     "required": ["message"]
                   },
                   "example": {
-                    "message": "Mensagens enviadas com sucesso!"
+                    "message": "Messages sent successfully!"
                   }
                 }
               }
             },
             "500": {
-              "description": "Erro no servidor"
+              "description": "Server error"
             }
           }
         }
