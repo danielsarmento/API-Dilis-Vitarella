@@ -71,4 +71,16 @@ export class RegisterService {
             throw new Error('Error sending message!')
         }
     }
+
+    async search (phone){
+        try {
+            const cellphone = phone.slice(2)
+            const response = await axios.get(`${env.URL_Dilis}/cellphone/${cellphone}`)
+            return response.data.user
+        } catch (err) {
+            if(err.response.status === 404){
+                throw new Error ('Not found')
+            }
+        }
+    }
 }
