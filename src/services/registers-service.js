@@ -1,6 +1,13 @@
 import axios from 'axios'
 import {env} from '../env/index.js'
 
+import { UpdateStatusError } from './errors/update-status-error.js'
+import { SearchCellphoneError } from './errors/search-cellphone-error.js'
+import { ZenviaMessageError } from './errors/zenvia-message-error.js'
+import { SearchDatasError } from './errors/search-datas-error.js'
+import { ExecuteSendError } from './errors/execute-send-error.js'
+import { SendaManualError } from './errors/send-manual-error.js'
+
 export class RegisterService {
     async executeSend (){
         try {
@@ -11,12 +18,13 @@ export class RegisterService {
             } else {
                 for (const item of apiData){
                     await this.send(item.name, item.videoLink, item.cellphone)
+                    await this.update(item.id)
                 }
                 return 
             }
 
           } catch (err) {
-            throw new Error('Error executing trigger content!')
+            throw new ExecuteSendError()
           }
     }
 
@@ -24,11 +32,12 @@ export class RegisterService {
         try {
             for (const item of data){
                 await this.send(item.name, item.videoLink, item.cellphone)
+                await this.update(item.id)
             }
             return 
 
           } catch (err) {
-            throw new Error('Error executing manual trigger content!')
+            throw new SendaManualError()
           }
     }
 
@@ -42,7 +51,7 @@ export class RegisterService {
             }
             
           } catch (err) {
-            throw new Error('Error fetching data!')
+            throw new SearchDatasError()
           }
     }
 
@@ -68,7 +77,7 @@ export class RegisterService {
                 },
             });
         } catch (err) {
-            throw new Error('Error sending message!')
+            throw new ZenviaMessageError()
         }
     }
 
@@ -79,8 +88,17 @@ export class RegisterService {
             return response.data.user
         } catch (err) {
             if(err.response.status === 404){
-                throw new Error ('Not found')
+                throw new SearchCellphoneError()
             }
+        }
+    }
+
+    async update (id){
+        try {
+            await axios.put(`${env.URL_DILIS}/status/${id}`)
+            return 
+        } catch (err) {
+            throw new UpdateStatusError()
         }
     }
 }
