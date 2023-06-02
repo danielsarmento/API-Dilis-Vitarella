@@ -12,7 +12,7 @@ export class RegisterService {
     async executeSend (){
         try {
             const apiData = await this.searchDataDB()
-            
+            console.log("Número de Disparos: ",apiData.length, "Data: ",new Date().toLocaleDateString(), new Date().toLocaleTimeString())
             if(!apiData){
                 return
             } else {
