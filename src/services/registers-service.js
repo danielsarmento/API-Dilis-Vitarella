@@ -9,10 +9,14 @@ import { ExecuteSendError } from './errors/execute-send-error.js'
 import { SendaManualError } from './errors/send-manual-error.js'
 
 export class RegisterService {
+    constructor () {
+        this.disparos = 0
+    }
     async executeSend (){
         try {
             const apiData = await this.searchDataDB()
-            console.log("Número de Disparos: ",apiData.length, "Data: ",new Date().toLocaleDateString(), new Date().toLocaleTimeString())
+            this.disparos += apiData.length
+            console.log("Número de Disparos a partir de 03/06: ",this.disparos)
             if(!apiData){
                 return
             } else {
