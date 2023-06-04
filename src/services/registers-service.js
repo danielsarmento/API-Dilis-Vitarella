@@ -71,7 +71,7 @@ export class RegisterService {
                         templateId: `${env.TEMPLATE_ID}`,
                         fields: {
                             username: `${username}`,
-                            video: `${videoLinkEdit}`
+                            video: videoLinkEdit
                         }
                     }
                 ]
