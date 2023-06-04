@@ -61,8 +61,8 @@ export class RegisterService {
 
     async send (username, videoLink, phone) {
         try {
-            const videoLinkEdit = `<a href="${videoLink}">Link do vídeo</a>`;
-            const response = await axios.post('https://api.zenvia.com/v2/channels/whatsapp/messages', {
+            const videoLinkEdit = `<a>${videoLink}</a>`;
+            await axios.post('https://api.zenvia.com/v2/channels/whatsapp/messages', {
                 from: `${env.CELL_PHONE_NUMBER}`,
                 to: `55${phone}`,
                 contents: [
