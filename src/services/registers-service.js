@@ -8,6 +8,8 @@ import { SearchDatasError } from './errors/search-datas-error.js'
 import { ExecuteSendError } from './errors/execute-send-error.js'
 import { SendaManualError } from './errors/send-manual-error.js'
 
+import { createData } from '../repositories/users-repositories.js'
+
 export class RegisterService {
     
     async executeSend (){
@@ -19,6 +21,7 @@ export class RegisterService {
             } else {
                 for (const item of apiData){
                     await this.send(item.name, item.videoLink, item.cellphone)
+                    await createData(item.name, item.videoLink, item.cellphone)
                     await this.update(item.id)
                 }
                 return 
@@ -33,6 +36,7 @@ export class RegisterService {
         try {
             for (const item of data){
                 await this.send(item.name, item.videoLink, item.cellphone)
+                await createData(item.name, item.videoLink, item.cellphone)
                 await this.update(item.id)
             }
             return 
@@ -56,9 +60,9 @@ export class RegisterService {
           }
     }
 
-    async send (username, videoLink, phone) {
+    async send (name, videoLink, phone) {
         try {
-            await axios.post('https://api.zenvia.com/v2/channels/whatsapp/messages', {
+            const response = await axios.post('https://api.zenvia.com/v2/channels/whatsapp/messages', {
                 from: `${env.CELL_PHONE_NUMBER}`,
                 to: `55${phone}`,
                 contents: [
@@ -66,7 +70,7 @@ export class RegisterService {
                         type: 'template',
                         templateId: `${env.TEMPLATE_ID}`,
                         fields: {
-                            username: `${username}`,
+                            username: `${name}`,
                             video: `${videoLink}`
                         }
                     }
@@ -77,6 +81,7 @@ export class RegisterService {
                     'Content-Type': 'application/json',
                 },
             });
+            console.log(response.data.content)
         } catch (err) {
             throw new ZenviaMessageError()
         }

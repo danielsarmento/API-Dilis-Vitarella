@@ -3,11 +3,14 @@ import cron from 'node-cron'
 import axios from 'axios'
 import { routes } from './http/routes/routes.js'
 import { env } from './env/index.js'
-export const app = express()
 import swaggerUi from 'swagger-ui-express'
 import swaggerFile from './swagger.json' assert { type: "json" };
+import cors from 'cors'
+
+export const app = express()
 const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
 
+app.use(cors())
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile, { customCssUrl: CSS_URL }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
