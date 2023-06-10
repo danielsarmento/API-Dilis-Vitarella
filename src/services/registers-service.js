@@ -15,7 +15,7 @@ export class RegisterService {
     async executeSend (){
         try {
             const apiData = await this.searchDataDB()
-            console.log("Número de Disparos: ",apiData.length)
+            console.log("Número de Disparos: ", apiData.length)
             if(!apiData){
                 return
             } else {
@@ -61,8 +61,7 @@ export class RegisterService {
     }
 
     async send (name, videoLink, phone) {
-        try {
-            const response = await axios.post('https://api.zenvia.com/v2/channels/whatsapp/messages', {
+        try {await axios.post('https://api.zenvia.com/v2/channels/whatsapp/messages', {
                 from: `${env.CELL_PHONE_NUMBER}`,
                 to: `55${phone}`,
                 contents: [
@@ -81,7 +80,6 @@ export class RegisterService {
                     'Content-Type': 'application/json',
                 },
             });
-            console.log(response.data.content)
         } catch (err) {
             throw new ZenviaMessageError()
         }
