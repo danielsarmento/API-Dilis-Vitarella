@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {env} from '../env/index.js'
+//import {env} from '../env/index.js'
 
 import { UpdateStatusError } from './errors/update-status-error.js'
 import { SearchCellphoneError } from './errors/search-cellphone-error.js'
@@ -8,7 +8,7 @@ import { SearchDatasError } from './errors/search-datas-error.js'
 import { ExecuteSendError } from './errors/execute-send-error.js'
 import { SendaManualError } from './errors/send-manual-error.js'
 
-import { createData } from '../repositories/users-repositories.js'
+//import { createData } from '../repositories/users-repositories.js'
 
 export class RegisterService {
     
@@ -21,7 +21,7 @@ export class RegisterService {
             } else {
                 for (const item of apiData){
                     await this.send(item.name, item.videoLink, item.cellphone)
-                    await createData(item.name, item.videoLink, item.cellphone)
+                    //await createData(item.name, item.videoLink, item.cellphone)
                     await this.update(item.id)
                 }
                 return 
@@ -36,7 +36,7 @@ export class RegisterService {
         try {
             for (const item of data){
                 await this.send(item.name, item.videoLink, item.cellphone)
-                await createData(item.name, item.videoLink, item.cellphone)
+                //await createData(item.name, item.videoLink, item.cellphone)
                 await this.update(item.id)
             }
             return 
@@ -48,7 +48,7 @@ export class RegisterService {
 
     async searchDataDB () {
         try {
-            const response = await axios.get(`${env.URL_DILIS}`)
+            const response = await axios.get(`http://145.14.134.34:3021/api/external/users`)
             if (!response){
                 return []
             } else {
@@ -61,22 +61,23 @@ export class RegisterService {
     }
 
     async send (name, videoLink, phone) {
+        const link = videoLink.replace(" ", "")
         try {await axios.post('https://api.zenvia.com/v2/channels/whatsapp/messages', {
-                from: `${env.CELL_PHONE_NUMBER}`,
+                from: `558398679409`,
                 to: `55${phone}`,
                 contents: [
                     {
                         type: 'template',
-                        templateId: `${env.TEMPLATE_ID}`,
+                        templateId: `989a319d-e069-44bd-8252-e7adfca41378`,
                         fields: {
-                            username: `${name}`,
-                            video: `${videoLink}`
+                            name: `${name}`,
+                            videoLink: `${link}`
                         }
                     }
                 ]
             }, {
                 headers: {
-                    'X-API-TOKEN': `${env.TOKEN_ZENVIA}`,
+                    'X-API-TOKEN': `onmngqVKP0U9KNbsiE3yY-Z86A7b6U4w5CXy`,
                     'Content-Type': 'application/json',
                 },
             });
@@ -88,7 +89,7 @@ export class RegisterService {
     async search (phone){
         try {
             const cellphone = phone.slice(2)
-            const response = await axios.get(`${env.URL_DILIS}/cellphone/${cellphone}`)
+            const response = await axios.get(`http://145.14.134.34:3021/api/external/users/cellphone/${cellphone}`)
             return response.data.user
         } catch (err) {
             if(err.response.status === 404){
@@ -99,7 +100,7 @@ export class RegisterService {
 
     async update (id){
         try {
-            await axios.put(`${env.URL_DILIS}/status/${id}`)
+            await axios.put(`http://145.14.134.34:3021/api/external/users/status/${id}`)
             return 
         } catch (err) {
             throw new UpdateStatusError()
