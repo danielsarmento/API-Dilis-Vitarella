@@ -1,11 +1,11 @@
 import express from 'express'
 import cron from 'node-cron'
 import axios from 'axios'
-import { routes } from './http/routes/routes.js'
+import { routes } from './src/http/routes/routes.js'
 import 'dotenv/config'
 //import { env } from './src/env/index.js'
 import swaggerUi from 'swagger-ui-express'
-import swaggerFile from './swagger.json' assert { type: "json" };
+import swaggerFile from './src/swagger.json' assert { type: "json" };
 import cors from 'cors'
 
 const PORT = process.env.PORT || 4444
