@@ -1,16 +1,10 @@
 import express from 'express'
 import cron from 'node-cron'
 import axios from 'axios'
-import { routes } from './src/http/routes/routes.js'
-import 'dotenv/config'
-//import { env } from './src/env/index.js'
-import swaggerUi from 'swagger-ui-express'
-import swaggerFile from './src/swagger.json' assert { type: "json" };
+import { routes } from './http/routes/routes.js'
 import cors from 'cors'
 
-const PORT = process.env.PORT || 4444
 export const app = express()
-const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
 
 app.use(cors())
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile, { customCssUrl: CSS_URL }));
@@ -24,6 +18,6 @@ cron.schedule('0-59/30 0-23 1-31 6 mon-tue-wed-thu-fri-sat-sun', () => {
     axios.get(`http://45.179.88.29:4444/register`)
 })
 
-app.listen(PORT, () => {
+app.listen(4444, () => {
     console.log('HTTP server running at PORT: 4444')
 })

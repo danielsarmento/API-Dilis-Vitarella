@@ -1,14 +1,10 @@
 import axios from 'axios'
-//import {env} from '../env/index.js'
-
 import { UpdateStatusError } from './errors/update-status-error.js'
 import { SearchCellphoneError } from './errors/search-cellphone-error.js'
 import { ZenviaMessageError } from './errors/zenvia-message-error.js'
 import { SearchDatasError } from './errors/search-datas-error.js'
 import { ExecuteSendError } from './errors/execute-send-error.js'
 import { SendaManualError } from './errors/send-manual-error.js'
-
-//import { createData } from '../repositories/users-repositories.js'
 
 export class RegisterService {
     
@@ -21,7 +17,6 @@ export class RegisterService {
             } else {
                 for (const item of apiData){
                     await this.send(item.name, item.videoLink, item.cellphone)
-                    //await createData(item.name, item.videoLink, item.cellphone)
                     await this.update(item.id)
                 }
                 return 
@@ -36,7 +31,6 @@ export class RegisterService {
         try {
             for (const item of data){
                 await this.send(item.name, item.videoLink, item.cellphone)
-                //await createData(item.name, item.videoLink, item.cellphone)
                 await this.update(item.id)
             }
             return 
